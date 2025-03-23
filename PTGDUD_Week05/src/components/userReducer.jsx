@@ -1,4 +1,4 @@
-import { useMemo, useReducer, useState } from "react";
+import { useCallback, useMemo, useReducer, useState } from "react";
 import React from "react"
 
 const ChildComponent=React.memo(({childState})=>{
@@ -99,6 +99,30 @@ export const UseMemo=()=>{
             <input type='number' onChange={(e)=>setNum(e.target.value)} className="border p-1 w-[75%]" placeholder='input number here to heavy calculate'/>
             <button onClick={e=>setCounter(counter+1)}>Increase counter</button>
             <p>Counter:{counter}</p>
+        </div>
+    )
+}
+
+export const UseCallback=()=>{
+
+
+    const ChildComp=({cb})=>{
+        return(
+            <div className="w-[300px] h-[200px] border">
+                <button onClick={cb}>call cb</button>
+            </div>
+        )
+    }
+
+    const [state,changeState]=useState("true");
+    const propFunc=useCallback(()=>{
+        console.log('child comp render');
+    },[])
+    return(
+        <div className="h-[400px] w-[600px] border flex flex-col items-center justify-between">
+            <p>parent state:{state}</p>
+            <button onClick={()=>changeState(state=="true"?"false":"true")}>change parent comp state</button>
+            <ChildComp cb={propFunc}/>
         </div>
     )
 }
